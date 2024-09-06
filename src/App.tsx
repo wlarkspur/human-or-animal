@@ -16,7 +16,7 @@ function App() {
   const [modalAnswer, setModalAnswer] = useState(null); // 모달 답변 관리
 
   const handleOpenModal = () => {
-    setIsModalOpen(true);
+    setIsModalOpen((prev) => !prev);
   };
   const handleAnswer = (answer: any) => {
     setModalAnswer(answer); // 답변 저장
@@ -26,7 +26,7 @@ function App() {
     if (answer === "O") {
       setVote(vote + 5); // 'O' 선택 시 5포인트 증가
     } else if (answer === "X") {
-      setVote(vote + 0); // 'X' 선택 시 2포인트 증가
+      setVote(vote + 0); // 'X' 선택 시 0포인트 증가
     }
     showPopup();
   };
@@ -91,12 +91,12 @@ function App() {
         </div>
         <div className="main_voteText">
           <div className="main_voteText_add">
-            <span>100포인트를 획득하면 짐승 혹은 사람이 됩니다.</span>
+            <span>100 포인트를 획득하면 짐승 혹은 사람이 됩니다.</span>
             <span style={{ marginRight: "25px" }}>
               내가 가진 영향력: {vote}
             </span>
             <svg
-              onClick={handleOpenModal}
+              onClick={showPopup}
               xmlns="http://www.w3.org/2000/svg"
               width="32"
               height="32"
