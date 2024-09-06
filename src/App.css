@@ -12,7 +12,7 @@
 }
 
 .header {
-  flex: 1;
+  flex: 0.8;
   background-color: black;
   align-content: center;
 }
@@ -46,6 +46,18 @@
   margin-top: 15px;
   font-size: 19px;
 }
+.main_voteText_add {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  span:first-child {
+    font-size: 15px;
+    margin-bottom: 15px;
+  }
+  svg {
+    margin-top: 10px;
+  }
+}
 
 .desc {
   flex-grow: 1;
@@ -62,6 +74,7 @@
 }
 .desc_text {
   padding-top: 10px;
+  color: white;
 }
 .titat {
   color: red;
@@ -70,4 +83,9 @@
 svg {
   width: 27px;
   height: 27px;
+}
+
+.modal_content_btn {
+  display: flex;
+  justify-content: space-around;
 }

@@ -1,9 +1,10 @@
 import { useState } from "react";
-
+import showPopup from "../showPopup";
 import "./App.css";
 
 import WebApp from "@twa-dev/sdk";
 WebApp.ready();
+
 function App() {
   const [count, setCount] = useState(10);
   const [vote, setVote] = useState(10);
@@ -11,6 +12,24 @@ function App() {
     width: window.innerWidth,
     height: window.innerHeight,
   });
+  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 닫힘 상태
+  const [modalAnswer, setModalAnswer] = useState(null); // 모달 답변 관리
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleAnswer = (answer: any) => {
+    setModalAnswer(answer); // 답변 저장
+    setIsModalOpen(false); // 모달 닫기
+
+    // 답변에 따라 vote 포인트 증가
+    if (answer === "O") {
+      setVote(vote + 5); // 'O' 선택 시 5포인트 증가
+    } else if (answer === "X") {
+      setVote(vote + 0); // 'X' 선택 시 2포인트 증가
+    }
+    showPopup();
+  };
   const counterMinus = () => {
     if (count === 0 || vote === 0) {
       return count;
@@ -71,24 +90,43 @@ function App() {
           </button>
         </div>
         <div className="main_voteText">
-          <span style={{ marginRight: "25px" }}>내가 가진 영향력: {vote}</span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="32"
-            height="32"
-            viewBox="0 0 24 24"
-            style={{
-              cursor: "pointer",
-              border: "1px solid orange",
-              padding: "3px",
-              borderRadius: "20%",
-            }}
-          >
-            <path
-              fill="orange"
-              d="M12 9a3 3 0 0 1 3 3a3 3 0 0 1-3 3a3 3 0 0 1-3-3a3 3 0 0 1 3-3m0-4.5c5 0 9.27 3.11 11 7.5c-1.73 4.39-6 7.5-11 7.5S2.73 16.39 1 12c1.73-4.39 6-7.5 11-7.5M3.18 12a9.821 9.821 0 0 0 17.64 0a9.821 9.821 0 0 0-17.64 0"
-            />
-          </svg>
+          <div className="main_voteText_add">
+            <span>100포인트를 획득하면 짐승 혹은 사람이 됩니다.</span>
+            <span style={{ marginRight: "25px" }}>
+              내가 가진 영향력: {vote}
+            </span>
+            <svg
+              onClick={handleOpenModal}
+              xmlns="http://www.w3.org/2000/svg"
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              style={{
+                cursor: "pointer",
+                border: "1px solid orange",
+                padding: "3px",
+                borderRadius: "20%",
+              }}
+            >
+              <path
+                fill="orange"
+                d="M12 9a3 3 0 0 1 3 3a3 3 0 0 1-3 3a3 3 0 0 1-3-3a3 3 0 0 1 3-3m0-4.5c5 0 9.27 3.11 11 7.5c-1.73 4.39-6 7.5-11 7.5S2.73 16.39 1 12c1.73-4.39 6-7.5 11-7.5M3.18 12a9.821 9.821 0 0 0 17.64 0a9.821 9.821 0 0 0-17.64 0"
+              />
+            </svg>
+            {/* 모달 표시 */}
+            {isModalOpen && (
+              <div className="modal">
+                <div className="modal_content">
+                  <p>당신은 게이(GAY)입니까?</p>
+                  <div className="modal_content_btn">
+                    {" "}
+                    <button onClick={() => handleAnswer("O")}>O (Yes)</button>
+                    <button onClick={() => handleAnswer("X")}>X (No)</button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
         <div className="desc">
           <p className="desc_text">
