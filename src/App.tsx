@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import "./App.css";
 
@@ -13,6 +13,7 @@ function App() {
     width: window.innerWidth,
     height: window.innerHeight,
   });
+  const [eye, setEye] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 닫힘 상태
   const [modalAnswer, setModalAnswer] = useState(null); // 모달 답변 관리
 
@@ -32,8 +33,16 @@ function App() {
   };
 
   const handleShowPopup = () => {
-    showPopupQuestion(setVote);
+    showPopupQuestion(setVote, setEye);
   };
+  useEffect(() => {
+    if (eye === false) {
+      const timer = setTimeout(() => {
+        setEye(true);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [eye]);
 
   return (
     <div
@@ -86,24 +95,44 @@ function App() {
             <span style={{ marginRight: "25px" }}>
               내가 가진 영향력: {vote}
             </span>
-            <svg
-              onClick={handleShowPopup}
-              xmlns="http://www.w3.org/2000/svg"
-              width="32"
-              height="32"
-              viewBox="0 0 24 24"
-              style={{
-                cursor: "pointer",
-                border: "1px solid orange",
-                padding: "3px",
-                borderRadius: "20%",
-              }}
-            >
-              <path
-                fill="orange"
-                d="M12 9a3 3 0 0 1 3 3a3 3 0 0 1-3 3a3 3 0 0 1-3-3a3 3 0 0 1 3-3m0-4.5c5 0 9.27 3.11 11 7.5c-1.73 4.39-6 7.5-11 7.5S2.73 16.39 1 12c1.73-4.39 6-7.5 11-7.5M3.18 12a9.821 9.821 0 0 0 17.64 0a9.821 9.821 0 0 0-17.64 0"
-              />
-            </svg>
+            {eye === true ? (
+              <svg
+                onClick={handleShowPopup}
+                xmlns="http://www.w3.org/2000/svg"
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                style={{
+                  cursor: "pointer",
+                  border: "1px solid orange",
+                  padding: "3px",
+                  borderRadius: "20%",
+                }}
+              >
+                <path
+                  fill="orange"
+                  d="M12 9a3 3 0 0 1 3 3a3 3 0 0 1-3 3a3 3 0 0 1-3-3a3 3 0 0 1 3-3m0-4.5c5 0 9.27 3.11 11 7.5c-1.73 4.39-6 7.5-11 7.5S2.73 16.39 1 12c1.73-4.39 6-7.5 11-7.5M3.18 12a9.821 9.821 0 0 0 17.64 0a9.821 9.821 0 0 0-17.64 0"
+                />
+              </svg>
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                style={{
+                  border: "1px solid white",
+                  padding: "3px",
+                  borderRadius: "20%",
+                }}
+              >
+                <path
+                  fill="white"
+                  d="M12 9a3 3 0 0 1 3 3a3 3 0 0 1-3 3a3 3 0 0 1-3-3a3 3 0 0 1 3-3m0-4.5c5 0 9.27 3.11 11 7.5c-1.73 4.39-6 7.5-11 7.5S2.73 16.39 1 12c1.73-4.39 6-7.5 11-7.5M3.18 12a9.821 9.821 0 0 0 17.64 0a9.821 9.821 0 0 0-17.64 0"
+                />
+              </svg>
+            )}
+
             {/* 모달 표시 */}
             {/* {isModalOpen && (
               <div className="modal">
