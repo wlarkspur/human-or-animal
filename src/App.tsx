@@ -62,14 +62,15 @@ function App() {
             </svg>
           </button>
         </div>
-        <div className="main_voteText">내가 가진 영향력: 0</div>
+        <div className="main_voteText">내가 가진 영향력: 15</div>
         <div className="desc">
-          <p>
+          <p className="desc_text">
             {" "}
-            지구에 사는 인류 중에는 사람이 몇 명 존재하지 않는다. 우리는 모두
-            개, 돼지로 존재하며 사람이 되기위해 노력하지 않으면 사람이 될 수
+            지구에 사는 인류 중에는 사람이 아닌 존재가 있다. 우리는 모두 개나
+            돼지처럼 존재하며, 사람이 되기 위해 노력하지 않으면 사람이 될 수
             없다.
           </p>
+          <p className="titat">당신은 사람인가? 짐승인가?</p>
         </div>
       </div>
     </div>
