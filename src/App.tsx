@@ -12,20 +12,23 @@ function App() {
     height: window.innerHeight,
   });
   const counterMinus = () => {
-    if (count === 0) {
+    if (count === 0 || vote === 0) {
       return count;
     }
     setCount(count - 1);
     setVote(vote - 1);
   };
   const counterPlus = () => {
+    if (vote === 0) {
+      return { count, vote };
+    }
     setCount(count + 1);
     setVote(vote - 1);
   };
   return (
     <div
       className="wrapper"
-      style={{ maxWidth: deviceSize.width, height: deviceSize.height }}
+      style={{ maxWidth: deviceSize.width, maxHeight: deviceSize.height }}
     >
       <div className="header" style={{ width: deviceSize.width }}>
         <img
@@ -67,7 +70,26 @@ function App() {
             </svg>
           </button>
         </div>
-        <div className="main_voteText">내가 가진 영향력: {vote}</div>
+        <div className="main_voteText">
+          <span style={{ marginRight: "25px" }}>내가 가진 영향력: {vote}</span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="32"
+            height="32"
+            viewBox="0 0 24 24"
+            style={{
+              cursor: "pointer",
+              border: "1px solid orange",
+              padding: "3px",
+              borderRadius: "20%",
+            }}
+          >
+            <path
+              fill="orange"
+              d="M12 9a3 3 0 0 1 3 3a3 3 0 0 1-3 3a3 3 0 0 1-3-3a3 3 0 0 1 3-3m0-4.5c5 0 9.27 3.11 11 7.5c-1.73 4.39-6 7.5-11 7.5S2.73 16.39 1 12c1.73-4.39 6-7.5 11-7.5M3.18 12a9.821 9.821 0 0 0 17.64 0a9.821 9.821 0 0 0-17.64 0"
+            />
+          </svg>
+        </div>
         <div className="desc">
           <p className="desc_text">
             {" "}
