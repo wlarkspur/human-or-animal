@@ -1,8 +1,9 @@
 import { useState } from "react";
-import showPopup from "../showPopup";
+
 import "./App.css";
 
 import WebApp from "@twa-dev/sdk";
+import showPopupQuestion from "../showPopup";
 WebApp.ready();
 
 function App() {
@@ -15,21 +16,6 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 닫힘 상태
   const [modalAnswer, setModalAnswer] = useState(null); // 모달 답변 관리
 
-  const handleOpenModal = () => {
-    setIsModalOpen((prev) => !prev);
-  };
-  const handleAnswer = (answer: any) => {
-    setModalAnswer(answer); // 답변 저장
-    setIsModalOpen(false); // 모달 닫기
-
-    // 답변에 따라 vote 포인트 증가
-    if (answer === "O") {
-      setVote(vote + 5); // 'O' 선택 시 5포인트 증가
-    } else if (answer === "X") {
-      setVote(vote + 0); // 'X' 선택 시 0포인트 증가
-    }
-    showPopup();
-  };
   const counterMinus = () => {
     if (count === 0 || vote === 0) {
       return count;
@@ -44,6 +30,11 @@ function App() {
     setCount(count + 1);
     setVote(vote - 1);
   };
+
+  const handleShowPopup = () => {
+    showPopupQuestion(setVote);
+  };
+
   return (
     <div
       className="wrapper"
@@ -91,12 +82,12 @@ function App() {
         </div>
         <div className="main_voteText">
           <div className="main_voteText_add">
-            <span>100 포인트를 획득하면 짐승 혹은 사람이 됩니다.</span>
+            <span>영향력을 획득하여 "개 vs 사람" 투자해보세요</span>
             <span style={{ marginRight: "25px" }}>
               내가 가진 영향력: {vote}
             </span>
             <svg
-              onClick={showPopup}
+              onClick={handleShowPopup}
               xmlns="http://www.w3.org/2000/svg"
               width="32"
               height="32"
@@ -114,7 +105,7 @@ function App() {
               />
             </svg>
             {/* 모달 표시 */}
-            {isModalOpen && (
+            {/* {isModalOpen && (
               <div className="modal">
                 <div className="modal_content">
                   <p>당신은 게이(GAY)입니까?</p>
@@ -125,17 +116,15 @@ function App() {
                   </div>
                 </div>
               </div>
-            )}
+            )} */}
           </div>
         </div>
         <div className="desc">
           <p className="desc_text">
             {" "}
-            지구에 사는 인류 중에는 사람이 아닌 존재가 있다. 우리는 모두 개나
-            돼지처럼 존재하며, 사람이 되기 위해 노력하지 않으면 사람이 될 수
-            없다.
+            인생은 악기와 같다. 연주하는 법을 배우면 될 뿐이다
           </p>
-          <p className="titat">당신은 사람인가? 짐승인가?</p>
+          <p className="titat">999</p>
         </div>
       </div>
     </div>
