@@ -21,8 +21,8 @@ export default function showPopup() {
       title: "GAY & LESBIAN",
       message: "당신은 LGBT를 지지하시나요?",
       buttons: [
-        { id: "link", type: "default", text: "네" },
-        { type: "cancel" },
+        { id: "link", type: "default", text: "YES" },
+        { id: "no", type: "default", text: "No" },
       ],
     },
     function (btn) {
