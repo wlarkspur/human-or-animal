@@ -15,7 +15,7 @@ WebApp.ready();
     }
   );
 } */
-export default function showPopupQuestion(setVote: any, setEye: any) {
+export default function showPopupQuestion(setVote: any) {
   WebApp.showPopup(
     {
       title: "Question 1",
@@ -79,5 +79,4 @@ export default function showPopupQuestion(setVote: any, setEye: any) {
       }
     }
   );
-  setEye(false);
 }

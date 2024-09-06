@@ -33,7 +33,8 @@ function App() {
   };
 
   const handleShowPopup = () => {
-    showPopupQuestion(setVote, setEye);
+    showPopupQuestion(setVote);
+    setEye(false);
   };
   useEffect(() => {
     if (eye === false) {
