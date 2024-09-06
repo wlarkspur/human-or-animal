@@ -10,9 +10,7 @@ export default function showPopup() {
     },
     function (btn: any) {
       if (btn === "link") {
-        WebApp.openLink(
-          "https://slaviccenter.osu.edu/sites/default/files/styles/news_and_events_image/public/events-images/russia-gay-pride-putin.jpg?itok=SHVKhaNr"
-        );
+        WebApp.openLink("https://www.rbc.ru/");
       }
     }
   );
