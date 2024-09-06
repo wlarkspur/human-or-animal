@@ -5,17 +5,22 @@ import "./App.css";
 import WebApp from "@twa-dev/sdk";
 WebApp.ready();
 function App() {
-  const [count, setCount] = useState(0);
-  const [vote, setVote] = useState(0);
+  const [count, setCount] = useState(10);
+  const [vote, setVote] = useState(10);
   const [deviceSize, setDeviceSize] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
   });
-  const counter = () => {
+  const counterMinus = () => {
     if (count === 0) {
       return count;
     }
     setCount(count - 1);
+    setVote(vote - 1);
+  };
+  const counterPlus = () => {
+    setCount(count + 1);
+    setVote(vote - 1);
   };
   return (
     <div
@@ -31,7 +36,7 @@ function App() {
       </div>
       <div className="main">
         <div className="main_button">
-          <button onClick={counter}>
+          <button onClick={counterMinus}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="32"
@@ -45,7 +50,7 @@ function App() {
             </svg>
           </button>
           <div className="counter">{count}</div>
-          <button onClick={() => setCount(count + 1)}>
+          <button onClick={counterPlus}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="32"
@@ -62,7 +67,7 @@ function App() {
             </svg>
           </button>
         </div>
-        <div className="main_voteText">내가 가진 영향력: 15</div>
+        <div className="main_voteText">내가 가진 영향력: {vote}</div>
         <div className="desc">
           <p className="desc_text">
             {" "}
