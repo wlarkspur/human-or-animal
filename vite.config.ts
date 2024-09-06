@@ -6,7 +6,6 @@ import Icons from "unplugin-icons/vite";
 export default defineConfig({
   plugins: [react(), basicSsl(), Icons()],
   build: {
-    outDir: "./docs",
+    outDir: "dist",
   },
-  base: "/vite-boilerplate/",
 });
