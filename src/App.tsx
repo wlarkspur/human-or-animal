@@ -7,7 +7,7 @@ WebApp.ready();
 function App() {
   const [count, setCount] = useState(10);
   const [vote, setVote] = useState(10);
-  const [deviceSize, setDeviceSize] = useState({
+  const [deviceSize] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
   });
