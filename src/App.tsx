@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 import "./App.css";
-
+import { questions } from "../questions";
 import WebApp from "@twa-dev/sdk";
 import showPopupQuestion from "../showPopup";
 WebApp.ready();
@@ -14,8 +14,27 @@ function App() {
     height: window.innerHeight,
   });
   const [eye, setEye] = useState(true);
+  const [eyeEnd, setEyeEnd] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 닫힘 상태
-  const [modalAnswer, setModalAnswer] = useState(null); // 모달 답변 관리
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0); // 모달 답변 관리
+
+  const handleModal = () => {
+    if (currentQuestionIndex + 1 > questions.length) {
+      /* setEyeEnd(true); */
+      return setIsModalOpen(false);
+    }
+    setIsModalOpen((prev) => !prev);
+  };
+  const handleAnswer = (answer: "O" | "X") => {
+    const currentQuestion = questions[currentQuestionIndex];
+    const score = currentQuestion.score[answer];
+    setVote((prevVote) => prevVote + score);
+    handleModal();
+    if (currentQuestionIndex + 1 === questions.length) {
+      setEyeEnd(true);
+    }
+    setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+  };
 
   const counterMinus = () => {
     if (count === 0 || vote === 0) {
@@ -32,10 +51,6 @@ function App() {
     setVote(vote - 1);
   };
 
-  const handleShowPopup = () => {
-    showPopupQuestion(setVote);
-    setEye(false);
-  };
   useEffect(() => {
     if (eye === false) {
       const timer = setTimeout(() => {
@@ -96,9 +111,9 @@ function App() {
             <span style={{ marginRight: "25px" }}>
               내가 가진 영향력: {vote}
             </span>
-            {eye === true ? (
+            {eye === true && eyeEnd === false ? (
               <svg
-                onClick={handleShowPopup}
+                onClick={handleModal}
                 xmlns="http://www.w3.org/2000/svg"
                 width="32"
                 height="32"
@@ -122,23 +137,23 @@ function App() {
                 height="32"
                 viewBox="0 0 24 24"
                 style={{
-                  border: "1px solid white",
+                  border: "1px solid red",
                   padding: "3px",
                   borderRadius: "20%",
                 }}
               >
                 <path
-                  fill="white"
+                  fill="red"
                   d="M12 9a3 3 0 0 1 3 3a3 3 0 0 1-3 3a3 3 0 0 1-3-3a3 3 0 0 1 3-3m0-4.5c5 0 9.27 3.11 11 7.5c-1.73 4.39-6 7.5-11 7.5S2.73 16.39 1 12c1.73-4.39 6-7.5 11-7.5M3.18 12a9.821 9.821 0 0 0 17.64 0a9.821 9.821 0 0 0-17.64 0"
                 />
               </svg>
             )}
 
             {/* 모달 표시 */}
-            {/* {isModalOpen && (
+            {isModalOpen && (
               <div className="modal">
                 <div className="modal_content">
-                  <p>당신은 게이(GAY)입니까?</p>
+                  <p>{questions[currentQuestionIndex]?.text}</p>
                   <div className="modal_content_btn">
                     {" "}
                     <button onClick={() => handleAnswer("O")}>O (Yes)</button>
@@ -146,7 +161,7 @@ function App() {
                   </div>
                 </div>
               </div>
-            )} */}
+            )}
           </div>
         </div>
         <div className="desc">
