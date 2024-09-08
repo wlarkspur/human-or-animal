@@ -1,18 +1,23 @@
 import { useState, useEffect } from "react";
-
 import "./App.css";
-import { questions } from "../questions";
+import { questions } from "./components/questions";
 import WebApp from "@twa-dev/sdk";
-import showPopupQuestion from "../showPopup";
+import { useSpring, animated } from "@react-spring/web";
+import { quotations } from "./components/quotations";
+
 WebApp.ready();
 
 function App() {
   const [count, setCount] = useState(10);
   const [vote, setVote] = useState(10);
+  const [previousCount, setPreviousCount] = useState(10); // 이전 숫자를 저장
+  const [animationDirection, setAnimationDirection] = useState("moveUp");
+
   const [deviceSize] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
   });
+  const [quoteIndex, setQuoteIndex] = useState(0); //Quotaion
   const [eye, setEye] = useState(true);
   const [eyeEnd, setEyeEnd] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 닫힘 상태
@@ -40,6 +45,8 @@ function App() {
     if (count === 0 || vote === 0) {
       return count;
     }
+    setPreviousCount(count);
+    setAnimationDirection("moveDown");
     setCount(count - 1);
     setVote(vote - 1);
   };
@@ -47,10 +54,17 @@ function App() {
     if (vote === 0) {
       return { count, vote };
     }
+    setPreviousCount(count);
+    setAnimationDirection("moveUp");
     setCount(count + 1);
     setVote(vote - 1);
   };
-
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setAnimationDirection("");
+    }, 100);
+    return () => clearTimeout(timer);
+  }, [count]);
   useEffect(() => {
     if (eye === false) {
       const timer = setTimeout(() => {
@@ -59,7 +73,18 @@ function App() {
       return () => clearTimeout(timer);
     }
   }, [eye]);
-
+  useEffect(() => {
+    const interValid = setInterval(() => {
+      setQuoteIndex((prev) => {
+        let newIndex;
+        do {
+          newIndex = Math.floor(Math.random() * quotations.length);
+        } while (newIndex === prev);
+        return newIndex;
+      });
+    }, 5000);
+    return () => clearInterval(interValid);
+  }, [questions.length]);
   return (
     <div
       className="wrapper"
@@ -74,7 +99,7 @@ function App() {
       </div>
       <div className="main">
         <div className="main_button">
-          <button onClick={counterMinus}>
+          <button className="minusBtn" onClick={counterMinus}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="32"
@@ -87,8 +112,10 @@ function App() {
               />
             </svg>
           </button>
-          <div className="counter">{count}</div>
-          <button onClick={counterPlus}>
+          <div className="counter">
+            <div className={`number${animationDirection}`}>{count}</div>
+          </div>
+          <button className="plusBtn" onClick={counterPlus}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="32"
@@ -148,12 +175,18 @@ function App() {
                 />
               </svg>
             )}
+          </div>
 
+          <div className="main_voteText_modal">
             {/* 모달 표시 */}
+
             {isModalOpen && (
               <div className="modal">
                 <div className="modal_content">
-                  <p>{questions[currentQuestionIndex]?.text}</p>
+                  <div className="modal_content_text">
+                    <span>{questions[currentQuestionIndex]?.text}</span>
+                  </div>
+
                   <div className="modal_content_btn">
                     {" "}
                     <button onClick={() => handleAnswer("O")}>O (Yes)</button>
@@ -165,10 +198,7 @@ function App() {
           </div>
         </div>
         <div className="desc">
-          <p className="desc_text">
-            {" "}
-            인생은 악기와 같다. 연주하는 법을 배우면 될 뿐이다
-          </p>
+          <p className="desc_text"> {quotations[quoteIndex].text}</p>
           <p className="titat">999</p>
         </div>
       </div>

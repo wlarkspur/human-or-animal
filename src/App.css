@@ -1,7 +1,11 @@
 #root {
   min-height: 100vh;
-  margin: 0 auto;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
   text-align: center;
+  max-width: 100vw;
 }
 
 .wrapper {
@@ -15,34 +19,124 @@
   flex: 0.8;
   background-color: black;
   align-content: center;
+  overflow: hidden;
+}
+.header img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .main {
   flex: 1.618;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  overflow: hidden;
+}
+@keyframes plusvote {
+  0% {
+    transform: scale(1); /* 원래 크기 */
+    color: white;
+    background-color: goldenrod;
+  }
+  50% {
+    transform: scale(0.9); /* 살짝 축소 */
+    color: orangered;
+  }
+  100% {
+    transform: scale(1.05); /* 원래 크기보다 살짝 커짐 */
+    color: black;
+  }
+}
+@keyframes minusvote {
+  0% {
+    transform: scale(1); /* 원래 크기 */
+    color: white;
+    background-color: orangered;
+  }
+  50% {
+    transform: scale(0.9); /* 살짝 축소 */
+    color: black;
+  }
+  100% {
+    transform: scale(1.05); /* 원래 크기보다 살짝 커짐 */
+    color: black;
+  }
 }
 
+.plusBtn:active {
+  animation: plusvote 0.15s ease-in-out;
+}
+.minusBtn:active {
+  animation: minusvote 0.15s ease-in-out;
+}
+/* 위아래로 숫자가 넘어가는 애니메이션 */
+@keyframes moveUp {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+@keyframes moveDown {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
 .counter {
-  margin: 0 20px;
-  font-weight: 600;
-  font-size: 20px;
-}
-.main_button button {
-  margin-bottom: 10px;
-}
-.main_button {
+  width: 20vw;
+  height: 100%;
   display: flex;
-  flex: 0.3;
   justify-content: center;
   align-items: center;
+  font-weight: 600;
+  font-size: 1.3rem;
+  overflow: hidden;
+  position: relative;
+}
+/* .number {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 20px;
+  width: 20px;
+  padding: 15%;
+  border-radius: 50%;
+} */
+.numbermoveUp {
+  animation: moveUp 0.1s linear;
+}
+.numbermoveDown {
+  animation: moveDown 0.1s linear;
+}
 
+.main_button {
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
   margin-top: 10px;
 }
 .main_voteText {
   display: flex;
   justify-content: center;
+  flex-direction: column;
   align-items: center;
-  flex: 0.1;
+
   margin-top: 15px;
   font-size: 19px;
 }
@@ -58,22 +152,40 @@
     margin-top: 10px;
   }
 }
-
+@keyframes glow {
+  0% {
+    opacity: 0.8;
+  }
+  20% {
+    opacity: 0.6;
+  }
+  40% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 0.9;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
 .desc {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  box-shadow: 0px -5px 8px 2px rgba(243, 4, 4, 0.856);
+  box-shadow: 0px -5px 21px 1px rgba(243, 4, 4, 0.856);
   padding: 0 10px;
   margin-top: 35px;
   background-color: black;
-  font-size: 15px;
+  overflow: hidden;
 }
 .desc_text {
   padding-top: 10px;
   color: white;
+  font-size: 15px;
+  animation: glow 2s linear infinite;
 }
 .titat {
   color: red;
@@ -83,8 +195,33 @@ svg {
   width: 27px;
   height: 27px;
 }
-
+.modal {
+  /* position: fixed; */
+  box-shadow: 0 0 3px 1px rgba(255, 187, 0, 0.856);
+  background-color: rgba(0, 0, 0, 0.9);
+  width: 95vw;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 15px;
+  margin-top: 10px;
+}
+.modal_content {
+  width: 100%;
+  padding: 13px;
+}
+.modal_content_text {
+  font-size: 1rem;
+  line-height: 1.3rem;
+}
 .modal_content_btn {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
+  width: 100%;
+  margin-top: 10px;
+  button {
+    margin: 0 10px;
+    font-size: 18px;
+  }
 }
