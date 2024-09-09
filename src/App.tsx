@@ -28,17 +28,27 @@ function App() {
       /* setEyeEnd(true); */
       return setIsModalOpen(false);
     }
-    setIsModalOpen((prev) => !prev);
+    if (isModalOpen === true) {
+      setTimeout(() => {
+        setIsModalOpen((prev) => !prev);
+        // Modal이 닫힐 때 질문이 변경되도록 함
+        setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+      }, 1000);
+    } else {
+      setIsModalOpen((prev) => !prev);
+    }
   };
   const handleAnswer = (answer: "O" | "X") => {
     const currentQuestion = questions[currentQuestionIndex];
     const score = currentQuestion.score[answer];
     setVote((prevVote) => prevVote + score);
-    handleModal();
+
     if (currentQuestionIndex + 1 === questions.length) {
       setEyeEnd(true);
     }
-    setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+    handleModal();
+
+    /* handleModal(); */
   };
 
   const counterMinus = () => {

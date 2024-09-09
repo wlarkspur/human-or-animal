@@ -32,6 +32,7 @@
   flex-direction: column;
   width: 100%;
   overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.8);
 }
 @keyframes plusvote {
   0% {
@@ -186,7 +187,7 @@
   padding-top: 10px;
   color: white;
   font-size: 15px;
-  animation: glow 2s linear infinite;
+  animation: glow 1s linear infinite;
 }
 .titat {
   color: red;
@@ -217,6 +218,21 @@ svg {
   font-size: 1rem;
   line-height: 1.3rem;
 }
+@keyframes OxBtn {
+  0% {
+    transform: scale(1); /* 원래 크기 */
+    color: white;
+    background-color: goldenrod;
+  }
+  50% {
+    transform: scale(0.8); /* 살짝 축소 */
+    color: orangered;
+  }
+  100% {
+    transform: scale(1.05); /* 원래 크기보다 살짝 커짐 */
+    color: black;
+  }
+}
 .modal_content_btn {
   display: flex;
   justify-content: center;
@@ -226,4 +242,7 @@ svg {
     margin: 0 10px;
     font-size: 18px;
   }
+}
+.modal_content_btn button:active {
+  animation: OxBtn 0.5s ease-in-out;
 }
