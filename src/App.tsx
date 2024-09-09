@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import "./App.css";
 import { questions } from "./components/questions";
 import WebApp from "@twa-dev/sdk";
-import { useSpring, animated } from "@react-spring/web";
+
 import { quotations } from "./components/quotations";
 
 WebApp.ready();
@@ -134,8 +134,8 @@ function App() {
         </div>
         <div className="main_voteText">
           <div className="main_voteText_add">
-            <span>영향력을 획득하여 "개 vs 사람" 투자해보세요</span>
-            <span style={{ marginRight: "25px" }}>
+            <span>짐승 vs 사람</span>
+            <span style={{ marginRight: "20px", fontSize: "16px" }}>
               내가 가진 영향력: {vote}
             </span>
             {eye === true && eyeEnd === false ? (
