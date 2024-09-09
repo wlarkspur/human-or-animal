@@ -209,6 +209,7 @@ svg {
   margin-top: 10px;
 }
 .modal_content {
+  color: white;
   width: 100%;
   padding: 13px;
 }
