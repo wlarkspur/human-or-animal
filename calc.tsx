@@ -45,8 +45,23 @@ function Calc({ setIsCalc }: CalcProps) {
   };
 
   return (
-    <div style={{ height: "100%" }}>
-      <h1 style={{ fontSize: "20px" }}>Калкулятор</h1>
+    <div style={{ height: "100%", color: "white" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <h1 style={{ fontSize: "20px", marginRight: "10px" }}>Калкулятор</h1>
+        <img
+          src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/main/Animals%20and%20Nature/Front%20Facing%20Baby%20Chick.webp"
+          alt="Front Facing Baby Chick"
+          width="25"
+          height="25"
+        />
+      </div>
+
       <div>
         <label>Сумма(€): </label>
         <input
@@ -55,7 +70,7 @@ function Calc({ setIsCalc }: CalcProps) {
           onChange={handleChange}
           placeholder="введите сумму"
           style={{
-            padding: "0px",
+            padding: "10px",
             fontSize: "16px",
             margin: "10px 0",
             borderRadius: "10px",
@@ -64,7 +79,7 @@ function Calc({ setIsCalc }: CalcProps) {
       </div>
 
       {/* 결과를 화면에 표시 */}
-      <div style={{ fontSize: "15px", color: "white" }}>
+      <div style={{ fontSize: "15px" }}>
         <p>Сумма: €{formatNumber(result.amount.toFixed(2))}</p>
         <p>Коммисия: €{formatNumber(result.fee.toFixed(2))}</p>
         <p>
@@ -72,6 +87,14 @@ function Calc({ setIsCalc }: CalcProps) {
         </p>
       </div>
       <button onClick={() => setIsCalc(false)}>Close</button>
+      <div style={{ width: "100%", height: "100%", marginTop: "40px" }}>
+        <img
+          src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/main/Activity/Party%20Popper.webp"
+          alt="Party Popper"
+          width="200"
+          height="200"
+        />
+      </div>
     </div>
   );
 }

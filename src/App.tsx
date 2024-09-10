@@ -240,8 +240,15 @@ function App() {
         <div className="desc">
           <p className="desc_text"> {quotations[quoteIndex].text}</p>
           <p className="titat">999</p>
-          <button onClick={() => setIsCalc(true)}>СКОЛЬКО БЛЯ ?! :(</button>
+          <button onClick={() => setIsCalc(true)}>СКОЛЬКО</button>
+          <img
+            src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/main/Objects/Money%20Bag.webp"
+            alt="Money Bag"
+            width="100"
+            height="100"
+          />
         </div>
+
         {isCalc && (
           <div
             style={{
