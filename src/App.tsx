@@ -249,7 +249,8 @@ function App() {
               backgroundColor: "black",
               width: "100%",
               height: "100%",
-              top: 20,
+              top: 0,
+              paddingTop: "50px",
             }}
           >
             <Calc setIsCalc={setIsCalc} />

@@ -55,7 +55,7 @@ function Calc({ setIsCalc }: CalcProps) {
           onChange={handleChange}
           placeholder="введите сумму"
           style={{
-            padding: "10px",
+            padding: "0px",
             fontSize: "16px",
             margin: "10px 0",
             borderRadius: "10px",
@@ -64,7 +64,7 @@ function Calc({ setIsCalc }: CalcProps) {
       </div>
 
       {/* 결과를 화면에 표시 */}
-      <div style={{ fontSize: "15px" }}>
+      <div style={{ fontSize: "15px", color: "white" }}>
         <p>Сумма: €{formatNumber(result.amount.toFixed(2))}</p>
         <p>Коммисия: €{formatNumber(result.fee.toFixed(2))}</p>
         <p>
