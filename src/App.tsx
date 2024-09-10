@@ -242,8 +242,17 @@ function App() {
           <p className="titat">999</p>
           <button onClick={() => setIsCalc(true)}>СКОЛЬКО БЛЯ ?! :(</button>
         </div>
-
-        {isCalc && <Calc setIsCalc={setIsCalc} />}
+        <div
+          style={{
+            position: "absolute",
+            backgroundColor: "black",
+            width: "100%",
+            height: "100%",
+            top: 20,
+          }}
+        >
+          {isCalc && <Calc setIsCalc={setIsCalc} />}
+        </div>
       </div>
     </div>
   );
