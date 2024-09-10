@@ -8,15 +8,18 @@ import { quotations } from "./components/quotations";
 WebApp.ready();
 
 function App() {
-  const [count, setCount] = useState(10);
-  const [vote, setVote] = useState(10);
-  const [previousCount, setPreviousCount] = useState(10); // 이전 숫자를 저장
-  const [animationDirection, setAnimationDirection] = useState("moveUp");
-
   const [deviceSize] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
   });
+  const [count, setCount] = useState(10);
+  const [vote, setVote] = useState(10);
+  const [oBtn, setOBtn] = useState(false);
+  const [xBtn, setXBtn] = useState(false);
+  const [isAnswered, setIsAnswered] = useState(false); // 새 상태: 답변 여부
+  const [previousCount, setPreviousCount] = useState(10); // 이전 숫자를 저장
+  const [eyeController, setEyeController] = useState(true);
+  const [animationDirection, setAnimationDirection] = useState("moveUp");
   const [quoteIndex, setQuoteIndex] = useState(0); //Quotaion
   const [eye, setEye] = useState(true);
   const [eyeEnd, setEyeEnd] = useState(false);
@@ -25,35 +28,41 @@ function App() {
 
   const handleModal = () => {
     if (currentQuestionIndex + 1 > questions.length) {
-      /* setEyeEnd(true); */
       return setIsModalOpen(false);
     }
-    if (isModalOpen === true) {
-      setTimeout(() => {
-        setIsModalOpen((prev) => !prev);
-        // Modal이 닫힐 때 질문이 변경되도록 함
-        setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
-      }, 1000);
-    } else {
-      setIsModalOpen((prev) => !prev);
-    }
+    setIsModalOpen((prev) => !prev);
+    setEyeController((prev) => !prev); // 질문 눈까리 토글
   };
   const handleAnswer = (answer: "O" | "X") => {
-    const currentQuestion = questions[currentQuestionIndex];
-    const score = currentQuestion.score[answer];
-    setVote((prevVote) => prevVote + score);
-
+    if (isAnswered) return; //답변이 완료되면 함수 종료; 이거 필요한가 ?
+    if (answer === "O") {
+      setOBtn(true);
+    } else {
+      setXBtn(true);
+    } // O, X 답변에 따라 버튼에 CSS효과를 주기 위함.
+    const currentQuestion = questions[currentQuestionIndex]; //현재 질문 index
+    const score = currentQuestion.score[answer]; //답변에 따른 점수
+    setVote((prevVote) => prevVote + score); // 위에서 얻은 점수를 영향력에 반영
+    setIsAnswered(true);
     if (currentQuestionIndex + 1 === questions.length) {
       setEyeEnd(true);
     }
-    handleModal();
-
-    /* handleModal(); */
+    setTimeout(() => {
+      handleModal();
+      setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+      setIsAnswered(false);
+      setOBtn(false);
+      setXBtn(false);
+    }, 1000);
   };
 
   const counterMinus = () => {
     if (count === 0 || vote === 0) {
-      return count;
+      setAnimationDirection("zero");
+      setTimeout(() => {
+        setAnimationDirection("");
+      }, 400);
+      return;
     }
     setPreviousCount(count);
     setAnimationDirection("moveDown");
@@ -61,8 +70,13 @@ function App() {
     setVote(vote - 1);
   };
   const counterPlus = () => {
-    if (vote === 0) {
-      return { count, vote };
+    if (vote === 0 || count >= 100) {
+      setAnimationDirection("zero");
+      setTimeout(() => {
+        setAnimationDirection("");
+      }, 400);
+
+      return;
     }
     setPreviousCount(count);
     setAnimationDirection("moveUp");
@@ -75,14 +89,14 @@ function App() {
     }, 100);
     return () => clearTimeout(timer);
   }, [count]);
-  useEffect(() => {
+  /* useEffect(() => {
     if (eye === false) {
       const timer = setTimeout(() => {
         setEye(true);
       }, 5000);
       return () => clearTimeout(timer);
     }
-  }, [eye]);
+  }, [eye]); */
   useEffect(() => {
     const interValid = setInterval(() => {
       setQuoteIndex((prev) => {
@@ -123,7 +137,7 @@ function App() {
             </svg>
           </button>
           <div className="counter">
-            <div className={`number${animationDirection}`}>{count}</div>
+            <div className={`number ${animationDirection}`}>{count}</div>
           </div>
           <button className="plusBtn" onClick={counterPlus}>
             <svg
@@ -148,42 +162,46 @@ function App() {
             <span style={{ marginRight: "20px", fontSize: "16px" }}>
               내가 가진 영향력: {vote}
             </span>
-            {eye === true && eyeEnd === false ? (
-              <svg
-                onClick={handleModal}
-                xmlns="http://www.w3.org/2000/svg"
-                width="32"
-                height="32"
-                viewBox="0 0 24 24"
-                style={{
-                  cursor: "pointer",
-                  border: "1px solid orange",
-                  padding: "3px",
-                  borderRadius: "20%",
-                }}
-              >
-                <path
-                  fill="orange"
-                  d="M12 9a3 3 0 0 1 3 3a3 3 0 0 1-3 3a3 3 0 0 1-3-3a3 3 0 0 1 3-3m0-4.5c5 0 9.27 3.11 11 7.5c-1.73 4.39-6 7.5-11 7.5S2.73 16.39 1 12c1.73-4.39 6-7.5 11-7.5M3.18 12a9.821 9.821 0 0 0 17.64 0a9.821 9.821 0 0 0-17.64 0"
-                />
-              </svg>
-            ) : (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="32"
-                height="32"
-                viewBox="0 0 24 24"
-                style={{
-                  border: "1px solid red",
-                  padding: "3px",
-                  borderRadius: "20%",
-                }}
-              >
-                <path
-                  fill="red"
-                  d="M12 9a3 3 0 0 1 3 3a3 3 0 0 1-3 3a3 3 0 0 1-3-3a3 3 0 0 1 3-3m0-4.5c5 0 9.27 3.11 11 7.5c-1.73 4.39-6 7.5-11 7.5S2.73 16.39 1 12c1.73-4.39 6-7.5 11-7.5M3.18 12a9.821 9.821 0 0 0 17.64 0a9.821 9.821 0 0 0-17.64 0"
-                />
-              </svg>
+            {eyeController && (
+              <div className="eyeWrapper">
+                {eye === true && eyeEnd === false ? (
+                  <svg
+                    onClick={handleModal}
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="32"
+                    height="32"
+                    viewBox="0 0 24 24"
+                    style={{
+                      cursor: "pointer",
+                      border: "1px solid orange",
+                      padding: "3px",
+                      borderRadius: "20%",
+                    }}
+                  >
+                    <path
+                      fill="orange"
+                      d="M12 9a3 3 0 0 1 3 3a3 3 0 0 1-3 3a3 3 0 0 1-3-3a3 3 0 0 1 3-3m0-4.5c5 0 9.27 3.11 11 7.5c-1.73 4.39-6 7.5-11 7.5S2.73 16.39 1 12c1.73-4.39 6-7.5 11-7.5M3.18 12a9.821 9.821 0 0 0 17.64 0a9.821 9.821 0 0 0-17.64 0"
+                    />
+                  </svg>
+                ) : (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="32"
+                    height="32"
+                    viewBox="0 0 24 24"
+                    style={{
+                      border: "1px solid red",
+                      padding: "3px",
+                      borderRadius: "20%",
+                    }}
+                  >
+                    <path
+                      fill="red"
+                      d="M12 9a3 3 0 0 1 3 3a3 3 0 0 1-3 3a3 3 0 0 1-3-3a3 3 0 0 1 3-3m0-4.5c5 0 9.27 3.11 11 7.5c-1.73 4.39-6 7.5-11 7.5S2.73 16.39 1 12c1.73-4.39 6-7.5 11-7.5M3.18 12a9.821 9.821 0 0 0 17.64 0a9.821 9.821 0 0 0-17.64 0"
+                    />
+                  </svg>
+                )}
+              </div>
             )}
           </div>
 
@@ -199,8 +217,20 @@ function App() {
 
                   <div className="modal_content_btn">
                     {" "}
-                    <button onClick={() => handleAnswer("O")}>O (Yes)</button>
-                    <button onClick={() => handleAnswer("X")}>X (No)</button>
+                    <button
+                      className={`answeredBtn ${oBtn ? "clicked" : ""}`}
+                      onClick={() => handleAnswer("O")}
+                      style={isAnswered ? { pointerEvents: "none" } : {}} // 클릭 차단
+                    >
+                      O (Yes)
+                    </button>
+                    <button
+                      className={`answeredBtn ${xBtn ? "clicked" : ""}`}
+                      onClick={() => handleAnswer("X")}
+                      style={isAnswered ? { pointerEvents: "none" } : {}} // 클릭 차단
+                    >
+                      X (No)
+                    </button>
                   </div>
                 </div>
               </div>
