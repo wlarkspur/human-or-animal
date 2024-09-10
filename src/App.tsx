@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import "./App.css";
 import { questions } from "./components/questions";
 import WebApp from "@twa-dev/sdk";
-
 import { quotations } from "./components/quotations";
+import Calc from "../calc";
 
 WebApp.ready();
 
@@ -25,7 +25,7 @@ function App() {
   const [eyeEnd, setEyeEnd] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 닫힘 상태
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0); // 모달 답변 관리
-
+  const [isCalc, setIsCalc] = useState(false);
   const handleModal = () => {
     if (currentQuestionIndex + 1 > questions.length) {
       return setIsModalOpen(false);
@@ -240,7 +240,10 @@ function App() {
         <div className="desc">
           <p className="desc_text"> {quotations[quoteIndex].text}</p>
           <p className="titat">999</p>
+          <button onClick={() => setIsCalc(true)}>СКОЛЬКО БЛЯ ?! :(</button>
         </div>
+
+        {isCalc && <Calc setIsCalc={setIsCalc} />}
       </div>
     </div>
   );
