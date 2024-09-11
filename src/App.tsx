@@ -109,12 +109,15 @@ function App() {
     }, 5000);
     return () => clearInterval(interValid);
   }, [questions.length]);
+  const { data }: any = WebApp.initDataUnsafe;
+  console.log(data);
   return (
     <div
       className="wrapper"
       style={{ maxWidth: deviceSize.width, maxHeight: deviceSize.height }}
     >
       <div className="header" style={{ width: deviceSize.width }}>
+        <div className="header_test">{data?.user}</div>
         <img
           src="https://images.unsplash.com/photo-1634167721555-1a02eb36e94c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzR8fCVFQyU4MiVBQyVFRCU4MyU4NHxlbnwwfHwwfHx8MA%3D%3D"
           alt="사탄의 사과"
